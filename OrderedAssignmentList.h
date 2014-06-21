@@ -32,7 +32,7 @@ public:
 	const_iterator end() const {
 		return assignmentList.end();
 	}
-
+	
 private:
 	std::list<Assignment> assignmentList;
 };

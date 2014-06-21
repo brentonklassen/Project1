@@ -14,14 +14,14 @@ void menu(AssignmentHandler);
 void main()
 {
 	/* examples of how to use classes below */
-	
+
 	AssignmentHandler Assignments;
-	
+
 	Assignments.readAssignmentsFromFile("Assignments.txt");
 
 	system("pause");
 }
-
+/*
 void menu(AssignmentHandler asgmntHndlr)
 {
 	string commands[] = {
@@ -49,3 +49,4 @@ void menu(AssignmentHandler asgmntHndlr)
 		}
 	} while (choice < NUM_COMMANDS - 1);
 }
+*/

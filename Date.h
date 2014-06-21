@@ -61,7 +61,7 @@ public:
 				day = 0;
 			}
 		}
-		
+
 	}
 
 	int operator - (Date other){ //difference in number of days
@@ -129,10 +129,10 @@ private:
 /*
 istream& operator>> (istream& in, Date& other)
 {
-	//in >> other.getYear();
-	//in >> other.getMonth();
-	//in >> other.getDay();
-	return in;
+//in >> other.getYear();
+//in >> other.getMonth();
+//in >> other.getDay();
+return in;
 }
 */
 #endif
