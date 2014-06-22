@@ -17,11 +17,15 @@ void main()
 
 	AssignmentHandler Assignments;
 
-	Assignments.readAssignmentsFromFile("Assignments.txt");
+	Assignments.importAssignmentsFromFile("Assignments.txt");
+    Assignments.displayAllAssignments(cout);
+    
+
+
 
 	system("pause");
 }
-/*
+
 void menu(AssignmentHandler asgmntHndlr)
 {
 	string commands[] = {
@@ -41,7 +45,7 @@ void menu(AssignmentHandler asgmntHndlr)
 		cin.ignore(numeric_limits<int>::max(), '\n');
 		switch (choice) {
 		case 0: asgmntHndlr.addAssignment(); break;
-			//case 1: do_change_entry(the_directory); break;
+		//case 1: do_change_entry(the_directory); break;
 			//case 2: do_lookup_entry(the_directory); break;
 			//case 3: do_remove_entry(the_directory); break;
 			//case 4: do_save(the_directory); break;
@@ -49,4 +53,3 @@ void menu(AssignmentHandler asgmntHndlr)
 		}
 	} while (choice < NUM_COMMANDS - 1);
 }
-*/

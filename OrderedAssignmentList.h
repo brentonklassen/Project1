@@ -25,6 +25,8 @@ public:
 		assignmentList.remove(theAssignment);
 	}
 
+    
+
 	const_iterator begin() const {
 		return assignmentList.begin();
 	}

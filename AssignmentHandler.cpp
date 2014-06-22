@@ -4,9 +4,12 @@ Assignment handler implimentation
 
 #include "AssignmentHandler.h"
 #include "StringTokenizer.h"
+#include "Date.h"
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+#include <iomanip>
+#include <iterator>
 using namespace std;
 
 // default, no argument constructor
@@ -48,19 +51,17 @@ void AssignmentHandler::addAssignment()
 	//assignedAssignments.insert(Assignment(assignedDate, dueDate, desc));
 }
 
-void AssignmentHandler::completeAssignment(const Assignment& theAssignment)
-{
-	completeAssignments.insert(theAssignment);
-	completeAssignments.remove(theAssignment);
-}
-
 void AssignmentHandler::editAssignment()
 {
 
 }
 
-void AssignmentHandler::displayAssignments()
+void AssignmentHandler::displayAssignment(ostream& out, const Assignment& assignment)
 {
+    out << "Assigned Date: " << assignment.getAssignedDate() << "\t" << 
+        "Due Date: "      << assignment.getDueDate() << "\t" << endl
+        << "Assignment Description: " << assignment.getDescription() 
+        << "Assignment Status: " << "\t" << assignment.getCurrentStatus() << endl << endl;
 
 }
 
@@ -69,12 +70,54 @@ int AssignmentHandler::getLateAssignments()
 	return 0; // temporary return
 }
 
-void AssignmentHandler::readAssignmentsFromFile(const string& fName)
+void AssignmentHandler::completeAnAssignment(Assignment& theAssignment)
+{
+    theAssignment.completeAssignment();
+    completeAssignments.insert(theAssignment);
+	assignedAssignments.remove(theAssignment);
+}
+
+void AssignmentHandler::overdueAnAssignment(Assignment& assignment)
+{
+    assignment.overdueAssignment();
+}
+
+
+
+
+void AssignmentHandler::displayOrderedAssignedAssignmentList(ostream& out)
+    {
+        OrderedAssignmentList::const_iterator iter;
+        for (iter = assignedAssignments.begin(); iter != assignedAssignments.end(); iter++)
+        {
+            displayAssignment(cout, *iter);
+        }
+    }
+
+void AssignmentHandler::displayOrderedCompletedAssignmentList(ostream& out)
+{
+    OrderedAssignmentList::const_iterator iter;
+    for (iter = completeAssignments.begin(); iter != completeAssignments.end(); iter++)
+    {
+        displayAssignment(cout, *iter);
+    }
+}
+
+void AssignmentHandler::displayAllAssignments(ostream& out)
+{
+    displayOrderedAssignedAssignmentList(out);
+    displayOrderedCompletedAssignmentList(out);
+}
+
+
+//reads assignments from file and adds them to the assigned assignments list
+void AssignmentHandler::importAssignmentsFromFile(const string& fName)
 {
 	fileName = fName;
 	ifstream in(fName.c_str(), ios::app);
 	if (in)
 	{
+        Assignment* temp_assignment;
 		Date assignedDate, dueDate;
 		string aDate, dDate, desc, line;
 		while (getline(in, line))
@@ -94,7 +137,8 @@ void AssignmentHandler::readAssignmentsFromFile(const string& fName)
 			dueDate.setYear(stoi(trim(stDDate.next_token())));
 			// read in description
 			desc = trim(stLine.next_token());
-			// This function isn't complete yet, it has to put the data that was read in to the temporary variables either into the the assignment list or to the completed list
+            temp_assignment = new Assignment(assignedDate, dueDate, desc);
+            assignedAssignments.insert(*temp_assignment);
 		}
 	}
 	else

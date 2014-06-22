@@ -11,23 +11,35 @@ using namespace std;
 
 class Assignment {
 public:
-	enum
-	{
-		LATE = -1,
-		ASSIGNED = 0,
-		COMPLETED = 1,
-	} Status;
-	//enum getStatus() { return Status; }
 	Assignment::Assignment() : assignedDate(), dueDate(), description("") {}
 	Assignment::Assignment(Date anAssignedDate, Date aDueDate, std::string aDescription) : assignedDate(anAssignedDate), dueDate(aDueDate), description(aDescription)
 	{
-		Status = ASSIGNED;
+		currentStatus = ASSIGNED;
+        dueDate = aDueDate;
+        assignedDate = anAssignedDate;
+        description = aDescription;
 	}
 	//Assignment::~Assignment(); // this was causing a lnk error
 	Date getAssignedDate() const { return assignedDate; }
+    Date getDueDate() const {return dueDate;}
+    string getDescription() const {return description;}
+
+
+    string getCurrentStatus() const
+    {
+        if (currentStatus == ASSIGNED) {return "ASSIGNED";}
+        if (currentStatus == COMPLETED) {return "COMPLETE";}
+        if (currentStatus == LATE) {return "LATE";}
+    }
+    void completeAssignment() {currentStatus = COMPLETED;}
+    void overdueAssignment() {currentStatus = LATE;}
+
+    //Assignment::status getStatus() const {return currentStatus;}
+
+
 	bool operator ==(Assignment other){
 		return assignedDate == other.assignedDate &&
-			dueDate == other.dueDate && description == other.description && Status == other.Status;
+            dueDate == other.dueDate && description == other.description && currentStatus == other.currentStatus;
 	}
 	//not sure status needs to be checked here? Let's discuss - it's probably best to leave it as is, however
 
@@ -35,6 +47,10 @@ private:
 	Date assignedDate;
 	Date dueDate;
 	std::string description;
+    enum status {LATE = 0, ASSIGNED = 1, COMPLETED = 2}; //stated explicitly so we can use the array below easily
+    
+    status currentStatus;
 };
 
 #endif
+
