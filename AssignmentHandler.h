@@ -22,16 +22,13 @@ public:
 	void importAssignmentsFromFile(const string& sourceName);
 	string trim(const string&);
 
-    void completeAnAssignment(Assignment assignment);
+    void completeAnAssignment(Assignment& assignment);
     void overdueAnAssignment(Assignment& assignment);
 
 private:
 	OrderedAssignmentList assignedAssignments;
 	OrderedAssignmentList completeAssignments;
-    //do we need two iterators for assignment lists>>???<<...not sure how to go about this.
-
 	string fileName;
-	int getNumber(int, int, std::string = "");
 };
 
 #endif

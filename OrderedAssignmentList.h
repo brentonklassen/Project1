@@ -13,7 +13,6 @@ class OrderedAssignmentList {
 public:
 
 	typedef std::list<Assignment>::const_iterator const_iterator;
-    typedef std::list<Assignment>::iterator iterator;
 
 	void insert(const Assignment& theAssignment){
 		std::list<Assignment>::iterator itr = assignmentList.begin();
@@ -26,13 +25,7 @@ public:
 		assignmentList.remove(theAssignment);
 	}
 
-    iterator begin() {
-        return assignmentList.begin();
-    }
-
-    iterator end() {
-        return assignmentList.end();
-    }
+    
 
 	const_iterator begin() const {
 		return assignmentList.begin();

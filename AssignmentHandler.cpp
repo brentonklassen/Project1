@@ -13,42 +13,21 @@ Assignment handler implimentation
 using namespace std;
 
 // default, no argument constructor
-
-// function to get number from user and take care of incorrect input
-int AssignmentHandler::getNumber(int low, int high, std::string message)
-{
-	int number;
-	bool valid = false;
-	if (message == "")
-		message = "Enter a number between " + std::to_string(low) + " and " + std::to_string(high) + ": ";
-	do
-	{
-		std::cout << message;
-		std::cin >> number;
-		while (std::cin.fail())
-		{
-			std::cout << "You must enter an integer: ";
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<int>::max(), '\n');
-			std::cin >> number;
-		}
-		if (number < low || number > high)
-			std::cout << "The number must be between " << low << " and " << high << ".\n";
-		else
-			valid = true;
-	} while (!valid);
-	return number;
-}
-
 void AssignmentHandler::addAssignment()
 {
-	Date aDate, dDate;
-	string assignedDate, dueDate, desc;
+	Date assignedDate, dueDate;
+	string description;
 
-	cout << "Assigned Date: ";
-	String_Tokenizer date(assignedDate, "/");
+	cout << "\nEnter the assignment's assigned date...\n";
+	cin >> assignedDate;
+	cout << "\nEnter the assignment's due date...\n";
+	cin >> dueDate;
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	cout << "\nEnter the description: ";
+	getline(cin, description);
+	cout << "\nEnter the status: ";
 
-	//assignedAssignments.insert(Assignment(assignedDate, dueDate, desc));
+	assignedAssignments.insert(Assignment(assignedDate, dueDate, description));
 }
 
 void AssignmentHandler::editAssignment()
@@ -58,11 +37,10 @@ void AssignmentHandler::editAssignment()
 
 void AssignmentHandler::displayAssignment(ostream& out, const Assignment& assignment)
 {
-    out << "Assigned Date: " << assignment.getAssignedDate() << "\t" << 
-        "Due Date: "      << assignment.getDueDate() << "\t" << endl
+    out << "Assigned Date: " << assignment.getAssignedDate() << "\t" 
+		<< "Due Date: " << assignment.getDueDate() << "\t" << endl
         << "Assignment Description: " << assignment.getDescription() 
         << "Assignment Status: " << "\t" << assignment.getCurrentStatus() << endl << endl;
-
 }
 
 int AssignmentHandler::getLateAssignments()
@@ -70,12 +48,11 @@ int AssignmentHandler::getLateAssignments()
 	return 0; // temporary return
 }
 
-void AssignmentHandler::completeAnAssignment(Assignment theAssignment)
+void AssignmentHandler::completeAnAssignment(Assignment& theAssignment)
 {
-    
+    theAssignment.completeAssignment();
     completeAssignments.insert(theAssignment);
 	assignedAssignments.remove(theAssignment);
-    theAssignment.completeAssignment();
 }
 
 void AssignmentHandler::overdueAnAssignment(Assignment& assignment)
@@ -88,10 +65,9 @@ void AssignmentHandler::overdueAnAssignment(Assignment& assignment)
 
 void AssignmentHandler::displayOrderedAssignedAssignmentList(ostream& out)
     {
-        OrderedAssignmentList::iterator iter;
+        OrderedAssignmentList::const_iterator iter;
         for (iter = assignedAssignments.begin(); iter != assignedAssignments.end(); iter++)
         {
-            overdueAnAssignment(*iter);
             displayAssignment(cout, *iter);
         }
     }
@@ -107,8 +83,10 @@ void AssignmentHandler::displayOrderedCompletedAssignmentList(ostream& out)
 
 void AssignmentHandler::displayAllAssignments(ostream& out)
 {
+	cout << "Here are the assignments...\n\n";
     displayOrderedAssignedAssignmentList(out);
     displayOrderedCompletedAssignmentList(out);
+	cout << "That's it!\n\n";
 }
 
 

@@ -22,12 +22,25 @@ public:
             throw std::invalid_argument(" The date is not valid");
     }
 
-    friend ostream& operator << (ostream& out, Date d)
+    friend ostream& operator << (ostream& out, const Date& d)
     {
         out << d.month << "/" << d.day << "/" << d.year;
         return out;
     }
 
+	friend istream& operator >> (istream& in, Date& d)
+	{
+		do {
+			cout << "\nYou must enter a valid date.\nEnter the year: ";
+			in >> d.year;
+			cout << "Enter the month: ";
+			in >> d.month;
+			cout << "Enter the day: ";
+			in >> d.day;
+		} while (!valid_date(d.year, d.month, d.day));
+
+		return in;
+	}
 
     bool operator <(Date other){
         if (year != other.year)
@@ -41,13 +54,14 @@ public:
 
     static bool valid_date(int year, int month, int day){
 
-        if (year>0 && month >= 1 && month >= 12 && day >= 1 && day <= 31){
+        if (year>0 && month >= 1 && month <= 12 && day >= 1 && day <= 31){
 
             if (year % 4 == 0 && month == 2) // check for the leap year case
                 return day <= 29;
 
             return day <= DAYS[month - 1];
         }
+		return false;
     }
 
     void add_days(int days){
@@ -135,13 +149,4 @@ public:
 
 
 };
-/*
-istream& operator>> (istream& in, Date& other)
-{
-//in >> other.getYear();
-//in >> other.getMonth();
-//in >> other.getDay();
-return in;
-}
-*/
 #endif

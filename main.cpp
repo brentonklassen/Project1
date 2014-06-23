@@ -9,47 +9,76 @@ Team members: Jordan Larson, Evan Bell, Brenton Klassen
 #include <iostream>
 #include <stdlib.h>
 using namespace std;
+
 void menu(AssignmentHandler);
+int getNumber(int, int, std::string = "");
 
 void main()
 {
-	/* examples of how to use classes below */
+	// user's choice
+	int choice;
 
+	// instantiate assignment handler
 	AssignmentHandler Assignments;
+
+	do {
+		// display menu
+		cout << "Welcome to the assignment handler!\n\n"
+			<< "Choose one of the following commands:\n\n"
+			<< "1. Add a new assignment\n"
+			<< "2. Complete an assignment\n"
+			<< "3. Edit an assignment\n"
+			<< "4. Provide a list of assignments ordered by due date\n"
+			<< "5. Count the number of late assignments\n"
+			<< "6. Read assignments from file\n"
+			<< "7. Exit\n\n";
+
+		choice = getNumber(1, 7, "Enter a choice: ");
+
+		switch (choice)
+		{
+		case 1:
+			Assignments.addAssignment();
+			break;
+		case 4:
+			Assignments.displayAllAssignments(cout);
+			break;
+		default:
+			cout << "Something's messed up...\n";
+			break;
+		}
+
+	} while (choice != 7);
 
 	Assignments.importAssignmentsFromFile("Assignments.txt");
     Assignments.displayAllAssignments(cout);
     
-
-
-
 	system("pause");
 }
 
-void menu(AssignmentHandler asgmntHndlr)
+
+// function to get number from user and take care of incorrect input
+int getNumber(int low, int high, std::string message)
 {
-	string commands[] = {
-		"Add a New Assignment",
-		"Completed an Assignment",
-		"Edit an Assignment",
-		"Print List of Assignments",
-		"Save List of Assignments",
-		"Exit" };
-	const size_t NUM_COMMANDS = 9;
-	size_t choice = NUM_COMMANDS - 1;
-	do {
-		for (size_t i = 0; i < NUM_COMMANDS; i++) {
-			cout << "Select: " << i << " " << commands[i] << "\n";
+	int number;
+	bool valid = false;
+	if (message == "")
+		message = "Enter a number between " + std::to_string(low) + " and " + std::to_string(high) + ": ";
+	do
+	{
+		std::cout << message;
+		std::cin >> number;
+		while (std::cin.fail())
+		{
+			std::cout << "You must enter an integer: ";
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<int>::max(), '\n');
+			std::cin >> number;
 		}
-		cin >> choice;
-		cin.ignore(numeric_limits<int>::max(), '\n');
-		switch (choice) {
-		case 0: asgmntHndlr.addAssignment(); break;
-		//case 1: do_change_entry(the_directory); break;
-			//case 2: do_lookup_entry(the_directory); break;
-			//case 3: do_remove_entry(the_directory); break;
-			//case 4: do_save(the_directory); break;
-			//case 5: do_save(the_directory); break;
-		}
-	} while (choice < NUM_COMMANDS - 1);
+		if (number < low || number > high)
+			std::cout << "The number must be between " << low << " and " << high << ".\n";
+		else
+			valid = true;
+	} while (!valid);
+	return number;
 }
