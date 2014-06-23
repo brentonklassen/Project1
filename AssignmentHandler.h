@@ -22,7 +22,7 @@ public:
 	void importAssignmentsFromFile(const string& sourceName);
 	string trim(const string&);
 
-    void completeAnAssignment(Assignment& assignment);
+    void completeAnAssignment(Assignment assignment);
     void overdueAnAssignment(Assignment& assignment);
 
 private:

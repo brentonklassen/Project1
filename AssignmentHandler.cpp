@@ -70,11 +70,12 @@ int AssignmentHandler::getLateAssignments()
 	return 0; // temporary return
 }
 
-void AssignmentHandler::completeAnAssignment(Assignment& theAssignment)
+void AssignmentHandler::completeAnAssignment(Assignment theAssignment)
 {
-    theAssignment.completeAssignment();
+    
     completeAssignments.insert(theAssignment);
 	assignedAssignments.remove(theAssignment);
+    theAssignment.completeAssignment();
 }
 
 void AssignmentHandler::overdueAnAssignment(Assignment& assignment)
@@ -87,9 +88,10 @@ void AssignmentHandler::overdueAnAssignment(Assignment& assignment)
 
 void AssignmentHandler::displayOrderedAssignedAssignmentList(ostream& out)
     {
-        OrderedAssignmentList::const_iterator iter;
+        OrderedAssignmentList::iterator iter;
         for (iter = assignedAssignments.begin(); iter != assignedAssignments.end(); iter++)
         {
+            overdueAnAssignment(*iter);
             displayAssignment(cout, *iter);
         }
     }

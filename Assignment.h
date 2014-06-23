@@ -28,8 +28,9 @@ public:
     string getCurrentStatus() const
     {
         if (currentStatus == ASSIGNED) {return "ASSIGNED";}
-        if (currentStatus == COMPLETED) {return "COMPLETE";}
-        if (currentStatus == LATE) {return "LATE";}
+        else if (currentStatus == COMPLETED) {return "COMPLETE";}
+        else if (currentStatus == LATE) {return "LATE";}
+        //handle an error
     }
     void completeAssignment() {currentStatus = COMPLETED;}
     void overdueAssignment() {currentStatus = LATE;}
