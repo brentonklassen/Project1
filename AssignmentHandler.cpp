@@ -35,13 +35,6 @@ void AssignmentHandler::editAssignment()
 
 }
 
-void AssignmentHandler::displayAssignment(ostream& out, const Assignment& assignment)
-{
-    out << "Assigned Date: " << assignment.getAssignedDate() << "\t" 
-		<< "Due Date: " << assignment.getDueDate() << "\t" << endl
-        << "Assignment Description: " << assignment.getDescription() 
-        << "Assignment Status: " << "\t" << assignment.getCurrentStatus() << endl << endl;
-}
 
 int AssignmentHandler::getLateAssignments()
 {
@@ -60,15 +53,12 @@ void AssignmentHandler::overdueAnAssignment(Assignment& assignment)
     assignment.overdueAssignment();
 }
 
-
-
-
 void AssignmentHandler::displayOrderedAssignedAssignmentList(ostream& out)
     {
         OrderedAssignmentList::const_iterator iter;
         for (iter = assignedAssignments.begin(); iter != assignedAssignments.end(); iter++)
         {
-            displayAssignment(cout, *iter);
+			iter->displayAssignment(out);
         }
     }
 
@@ -77,7 +67,7 @@ void AssignmentHandler::displayOrderedCompletedAssignmentList(ostream& out)
     OrderedAssignmentList::const_iterator iter;
     for (iter = completeAssignments.begin(); iter != completeAssignments.end(); iter++)
     {
-        displayAssignment(cout, *iter);
+		iter->displayAssignment(out);
     }
 }
 

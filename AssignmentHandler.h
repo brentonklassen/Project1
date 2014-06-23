@@ -14,7 +14,6 @@ public:
 	void addAssignment();
 	void completeAssignment(const Assignment&);
 	void editAssignment();
-    void displayAssignment(ostream& out, const Assignment& assignment);
     void displayOrderedAssignedAssignmentList(ostream& out);
     void displayOrderedCompletedAssignmentList(ostream& out);
     void displayAllAssignments(ostream& out);

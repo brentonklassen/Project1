@@ -19,6 +19,15 @@ public:
         assignedDate = anAssignedDate;
         description = aDescription;
 	}
+
+	void Assignment::displayAssignment(ostream& out) const
+	{
+		out << "Assigned Date: " << assignedDate << "\t"
+			<< "Due Date: " << dueDate << "\t" << endl
+			<< "Assignment Description: " << description
+			<< "Assignment Status: " << "\t" << getCurrentStatus() << endl << endl;
+	}
+
 	//Assignment::~Assignment(); // this was causing a lnk error
 	Date getAssignedDate() const { return assignedDate; }
     Date getDueDate() const {return dueDate;}
